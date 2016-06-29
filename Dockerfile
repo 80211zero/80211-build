@@ -41,7 +41,7 @@ WORKDIR /tmp
 COPY BSP/meta-clanton_v1.2.1.1.tar.gz meta-clanton_v1.2.1.1.tar.gz
 RUN tar xvfz meta-clanton_v1.2.1.1.tar.gz
 WORKDIR /tmp/meta-clanton_v1.2.1
-RUN /bin/bash -X setup.sh
+RUN /bin/bash -x setup.sh
 RUN source ./iot-devkit-init-build-env yocto_build
 RUN bitbake image-full
 
