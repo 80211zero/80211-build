@@ -29,7 +29,8 @@ RUN apt-get -q update &&\
 # Install Yocto requirement
 RUN apt-get -q update &&\
     DEBIAN_FRONTEND="noninteractive" apt-get -q install -y -o Dpkg::Options::="--force-confnew" \
-    git diffstat texinfo gawk chrpath file python &&\
+    git diffstat texinfo gawk chrpath file python build-essential gcc-multilib vim-common \
+    uuid-dev iasl subversion nasm autoconf lzop &&\
     apt-get -q clean -y && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
 # Set user jenkins to the image
@@ -41,9 +42,7 @@ WORKDIR /tmp
 COPY BSP/meta-clanton_v1.2.1.1.tar.gz meta-clanton_v1.2.1.1.tar.gz
 RUN tar xvfz meta-clanton_v1.2.1.1.tar.gz
 WORKDIR /tmp/meta-clanton_v1.2.1.1 
-RUN /bin/bash -x setup.sh 
-RUN /bin/bash iot-devkit-init-build-env yocto_build 
-RUN bitbake image-full
+RUN /bin/bash -x setup.sh && /bin/bash oe-init-build-env yocto_build && /bin/bash bitbake image-full
 
 # Standard SSH port
 EXPOSE 22
