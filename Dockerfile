@@ -61,7 +61,8 @@ COPY conf/auto.conf build/conf/bblayers.conf
 COPY conf/sanity.conf build/conf/sanity.conf
 COPY fix/iot-devkit-image.bb meta-intel-iot-devkit/recipes-core/images/iot-devkit-image.bb
 
-RUN . ./oe-init-build-env && bitbake iot-devkit-prof-dev-image
+RUN . ./oe-init-build-env 
+RUN bitbake iot-devkit-prof-dev-image
 
 # Standard SSH port
 EXPOSE 22
