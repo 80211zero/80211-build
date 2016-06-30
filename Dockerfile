@@ -58,7 +58,7 @@ RUN . ./oe-init-build-env
 WORKDIR /source
 COPY conf/bblayers.conf build/conf/bblayers.conf
 COPY conf/auto.conf build/conf/bblayers.conf
-COPY touch build/conf/sanity.conf
+COPY conf/sanity.conf build/conf/sanity.conf
 COPY fix/iot-devkit-image.bb meta-intel-iot-devkit/recipes-core/images/iot-devkit-image.bb
 
 RUN . ./oe-init-build-env && bitbake iot-devkit-prof-dev-image
