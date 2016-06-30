@@ -30,7 +30,7 @@ RUN apt-get -q update &&\
 RUN apt-get -q update &&\
     DEBIAN_FRONTEND="noninteractive" apt-get -q install -y -o Dpkg::Options::="--force-confnew" \
     git diffstat texinfo gawk chrpath file python build-essential gcc-multilib vim-common \
-    uuid-dev iasl subversion nasm autoconf lzop &&\
+    uuid-dev iasl subversion nasm autoconf lzop patchutils &&\
     apt-get -q clean -y && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
 # Set user jenkins to the image
@@ -38,11 +38,30 @@ RUN useradd -m -d /home/jenkins -s /bin/sh jenkins &&\
     echo "jenkins:jenkins" | chpasswd
 
 # Yocto build
-WORKDIR /tmp
-COPY BSP/meta-clanton_v1.2.1.1.tar.gz meta-clanton_v1.2.1.1.tar.gz
-RUN tar xvfz meta-clanton_v1.2.1.1.tar.gz
-WORKDIR /tmp/meta-clanton_v1.2.1.1 
-RUN /bin/bash -x setup.sh && /bin/bash oe-init-build-env yocto_build && /bin/bash bitbake image-full
+#WORKDIR /tmp
+#COPY BSP/meta-clanton_v1.2.1.1.tar.gz meta-clanton_v1.2.1.1.tar.gz
+#RUN tar xvfz meta-clanton_v1.2.1.1.tar.gz
+#WORKDIR /tmp/meta-clanton_v1.2.1.1 
+#RUN /bin/bash -x setup.sh && /bin/bash oe-init-build-env yocto_build && /bin/bash bitbake image-full
+
+WORKDIR /source
+RUN git clone --branch dizzy git://git.yoctoproject.org/poky iotdk
+WORKDIR /source/iotdk
+RUN git clone --branch dizzy git://git.yoctoproject.org/meta-intel-quark
+RUN git clone --branch dizzy git://git.yoctoproject.org/meta-intel-iot-middleware
+RUN git clone --branch dizzy git://git.yoctoproject.org/meta-intel-galileo
+RUN git clone git://git.yoctoproject.org/meta-intel-iot-devkit
+RUN git clone --branch dizzy http://github.com/openembedded/meta-openembedded.git meta-oe
+RUN git clone --branch master git://git.yoctoproject.org/meta-java
+
+RUN source oe-init-build-env
+WORKDIR /source
+COPY conf/bblayers.conf build/conf/bblayers.conf
+COPY conf/auto.conf build/conf/bblayers.conf
+COPY touch build/conf/sanity.conf
+COPY fix/iot-devkit-image.bb meta-intel-iot-devkit/recipes-core/images/iot-devkit-image.bb
+
+RUN source oe-init-build-env && bitbake iot-devkit-prof-dev-image
 
 # Standard SSH port
 EXPOSE 22
