@@ -55,7 +55,7 @@ RUN git clone --branch dizzy http://github.com/openembedded/meta-openembedded.gi
 RUN git clone --branch master git://git.yoctoproject.org/meta-java
 
 RUN . ./oe-init-build-env
-WORKDIR /source
+WORKDIR /source/iotdk
 COPY conf/bblayers.conf build/conf/bblayers.conf
 COPY conf/auto.conf build/conf/bblayers.conf
 COPY conf/sanity.conf build/conf/sanity.conf
