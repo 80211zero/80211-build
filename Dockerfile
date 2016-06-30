@@ -54,14 +54,14 @@ RUN git clone git://git.yoctoproject.org/meta-intel-iot-devkit
 RUN git clone --branch dizzy http://github.com/openembedded/meta-openembedded.git meta-oe
 RUN git clone --branch master git://git.yoctoproject.org/meta-java
 
-RUN source oe-init-build-env
+RUN . ./oe-init-build-env
 WORKDIR /source
 COPY conf/bblayers.conf build/conf/bblayers.conf
 COPY conf/auto.conf build/conf/bblayers.conf
 COPY touch build/conf/sanity.conf
 COPY fix/iot-devkit-image.bb meta-intel-iot-devkit/recipes-core/images/iot-devkit-image.bb
 
-RUN source oe-init-build-env && bitbake iot-devkit-prof-dev-image
+RUN . ./oe-init-build-env && bitbake iot-devkit-prof-dev-image
 
 # Standard SSH port
 EXPOSE 22
