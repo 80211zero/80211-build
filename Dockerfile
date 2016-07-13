@@ -59,7 +59,7 @@ RUN git clone --branch master git://git.yoctoproject.org/meta-java
 
 WORKDIR /source/iotdk
 #RUN source oe-init-build-env
-RUN unset OLDPWD && unset HOSTNAME && unset BUILDDIR && . ./oe-init-build-env
+RUN /bin/bash unset OLDPWD && unset HOSTNAME && unset BUILDDIR && . ./oe-init-build-env
 WORKDIR /source/iotdk
 COPY conf/bblayers.conf build/conf/bblayers.conf
 COPY conf/auto.conf build/conf/bblayers.conf
@@ -67,7 +67,7 @@ COPY conf/sanity.conf build/conf/sanity.conf
 COPY fix/iot-devkit-image.bb meta-intel-iot-devkit/recipes-core/images/iot-devkit-image.bb
 
 #RUN source oe-init-build-env
-RUN unset OLDPWD && unset HOSTNAME && unset BUILDDIR && . ./oe-init-build-env && bitbake core-image-minimal
+RUN /bin/bash unset OLDPWD && unset HOSTNAME && unset BUILDDIR && . ./oe-init-build-env && bitbake core-image-minimal
 
 # Standard SSH port
 EXPOSE 22
