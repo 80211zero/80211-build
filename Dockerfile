@@ -20,9 +20,9 @@ run locale-gen en_US.UTF-8 &&\
     sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd &&\
     mkdir -p /var/run/sshd
 
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
+#ENV LANG en_US.UTF-8
+#ENV LANGUAGE en_US:en
+#ENV LC_ALL en_US.UTF-8
 
 # Install JDK 7 (latest edition)
 RUN apt-get -q update &&\
