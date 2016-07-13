@@ -67,7 +67,7 @@ COPY conf/sanity.conf build/conf/sanity.conf
 COPY fix/iot-devkit-image.bb meta-intel-iot-devkit/recipes-core/images/iot-devkit-image.bb
 
 #RUN source oe-init-build-env
-RUN unset OLDPWD && unset HOSTNAME && unset BUILDDIR && . ./oe-init-build-env && bitbake iot-devkit-prof-dev-image
+RUN unset OLDPWD && unset HOSTNAME && unset BUILDDIR && . ./oe-init-build-env && bitbake core-image-minimal
 
 # Standard SSH port
 EXPOSE 22
