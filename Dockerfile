@@ -66,7 +66,7 @@ COPY conf/auto.conf build/conf/bblayers.conf
 COPY conf/sanity.conf build/conf/sanity.conf
 COPY fix/iot-devkit-image.bb meta-intel-iot-devkit/recipes-core/images/iot-devkit-image.bb
 
-RUN source oe-init-build-env && bitbake core-image-minimal
+RUN source oe-init-build-env && bitbake iot-devkit-prof-dev-image
 #RUN /bin/bash unset OLDPWD && unset HOSTNAME && unset BUILDDIR && . ./oe-init-build-env && bitbake core-image-minimal
 
 # Standard SSH port
