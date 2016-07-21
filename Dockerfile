@@ -2,8 +2,9 @@
 FROM ubuntu:trusty
 MAINTAINER Vipin Madhavanunni <vipmadha@gmail.com>
 
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-RUN /bin/sh --version
+#RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+#RUN /bin/sh --version
+ENTRYPOINT ["/bin/bash", "--"]
 
 # In case you need proxy
 #RUN echo 'Acquire::http::Proxy "http://127.0.0.1:8080";' >> /etc/apt/apt.conf
