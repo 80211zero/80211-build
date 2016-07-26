@@ -4,7 +4,7 @@ MAINTAINER Vipin Madhavanunni <vipmadha@gmail.com>
 
 #RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 #RUN /bin/sh --version
-ENTRYPOINT ["/bin/bash", "--"]
+#ENTRYPOINT ["/bin/bash", "--"]
 
 # In case you need proxy
 #RUN echo 'Acquire::http::Proxy "http://127.0.0.1:8080";' >> /etc/apt/apt.conf
@@ -59,15 +59,16 @@ RUN git clone --branch dizzy http://github.com/openembedded/meta-openembedded.gi
 RUN git clone --branch master git://git.yoctoproject.org/meta-java
 
 WORKDIR /source/iotdk
-RUN source oe-init-build-env
+#RUN source oe-init-build-env
 #RUN /bin/bash unset OLDPWD && unset HOSTNAME && unset BUILDDIR && . ./oe-init-build-env
+RUN . ./oe-init-build-env
 WORKDIR /source/iotdk
 COPY conf/bblayers.conf build/conf/bblayers.conf
 COPY conf/auto.conf build/conf/bblayers.conf
 COPY conf/sanity.conf build/conf/sanity.conf
 COPY fix/iot-devkit-image.bb meta-intel-iot-devkit/recipes-core/images/iot-devkit-image.bb
 
-RUN source oe-init-build-env && bitbake iot-devkit-prof-dev-image
+#RUN source oe-init-build-env && bitbake iot-devkit-prof-dev-image
 #RUN /bin/bash unset OLDPWD && unset HOSTNAME && unset BUILDDIR && . ./oe-init-build-env && bitbake core-image-minimal
 
 # Standard SSH port
