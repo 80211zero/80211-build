@@ -26,6 +26,14 @@ RUN apt-get -q update &&\
     DEBIAN_FRONTEND="noninteractive" apt-get -q install -y -o Dpkg::Options::="--force-confnew"  --no-install-recommends openjdk-7-jre-headless &&\
     apt-get -q clean -y && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
+# Install git lfs
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | /bin/bash
+
+RUN apt-get -q update &&\
+    DEBIAN_FRONTEND="noninteractive" apt-get -q install -y -o Dpkg::Options::="--force-confnew" \
+    git-lfs &&\
+    apt-get -q clean -y && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
+
 # Install Yocto requirement
 RUN apt-get -q update &&\
     DEBIAN_FRONTEND="noninteractive" apt-get -q install -y -o Dpkg::Options::="--force-confnew" \
@@ -51,8 +59,8 @@ RUN git config --global user.email "vipmadha@gmail.com"
 VOLUME /build
 
 # Install sdk
-#COPY sdk/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh /tmp/
 WORKDIR /tmp/
+#COPY sdk/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh /tmp/
 RUN wget https://github.com/vipintm/WiFiZero-build/raw/master/sdk/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh
 RUN chmod 775 /tmp/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh
 RUN /bin/bash -x /tmp/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh -y
