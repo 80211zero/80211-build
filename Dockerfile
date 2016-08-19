@@ -51,7 +51,9 @@ RUN git config --global user.email "vipmadha@gmail.com"
 VOLUME /build
 
 # Install sdk
-COPY sdk/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh /tmp/
+#COPY sdk/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh /tmp/
+WORKDIR /tmp/
+RUN wgen https://github.com/vipintm/WiFiZero-build/raw/master/sdk/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh
 RUN chmod 775 /tmp/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh
 RUN /bin/bash -x /tmp/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh -y
 RUN rm -rf /tmp/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh
