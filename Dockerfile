@@ -52,7 +52,8 @@ VOLUME /build
 
 # Install sdk
 COPY sdk/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh /tmp/
-RUN  /bin/bash /tmp/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh -y
+RUN chmod 775 /tmp/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh
+RUN /bin/bash -x /tmp/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh -y
 RUN rm -rf /tmp/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh
 
 # Set user jenkins to the image
