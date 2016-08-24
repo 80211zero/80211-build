@@ -53,7 +53,7 @@ VOLUME /build
 # Install sdk
 WORKDIR /tmp/
 #COPY sdk/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh /tmp/
-RUN wget https://github.com/vipintm/WiFiZero-build/raw/master/sdk/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh
+RUN wget -O iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh https://sourceforge.net/projects/wifizero/files/galileo_sdk_x86_64/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh/download 
 RUN chmod 775 /tmp/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh
 RUN /bin/bash -x /tmp/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh -y
 RUN rm -rf /tmp/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh
@@ -61,7 +61,11 @@ RUN rm -rf /tmp/iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh
 # Set user jenkins to the image
 RUN useradd -m -d /home/jenkins -s /bin/bash jenkins &&\
     echo "jenkins:jenkins" | chpasswd
+# Let make jenkins usable
+RUN chown -R jenkins:jenkins /build
 RUN echo "source /opt/iot-devkit/1.7.2/environment-setup-i586-poky-linux" >> /home/jenkins/.bashrc
+# Test purpose
+RUN echo "source /opt/iot-devkit/1.7.2/environment-setup-i586-poky-linux" >> /root/.bashrc
 
 # Standard SSH port
 EXPOSE 22
