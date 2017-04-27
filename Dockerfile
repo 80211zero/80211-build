@@ -40,8 +40,9 @@ RUN apt-get -q update &&\
     apt-get -q clean -y && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
 # Set locales
-RUN locale-gen en_US en_US.UTF-8
-RUN dpkg-reconfigure locales
+RUN locale-gen en_US $LANG
+RUN dpkg-reconfigure --frontend=noninteractive locales
+RUN update-locale LANGUAGE=$LANG
 
 # Set git
 RUN git config --global user.name "Vipin Madhavanunni"
