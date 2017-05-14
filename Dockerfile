@@ -9,7 +9,7 @@ ENV SDK_FILE_URL https://sourceforge.net/projects/wifizero/files/galileo_sdk_x86
 #RUN echo 'Acquire::http::Proxy "http://127.0.0.1:8080";' >> /etc/apt/apt.conf
 
 # CURRENT VERSION - CHANGE PER BUILD
-ENV GALILEO_SDK iot-devkit-glibc-x86_64-image-WiFiZero-i586-toolchain-1.7.2.sh
+ENV GALILEO_SDK iot-devkit-glibc-x86_64-image-80211zero-i586-toolchain-1.7.2.sh
 ENV SDK_VER 1.7.2
 
 # Upgrade packages on image
