@@ -13,11 +13,11 @@ ENV source "https://github.com/galileogen2/docker-sdk"
 # URLs
 ENV SDK_FILE_URL https://sourceforge.net/projects/wifizero/files/galileo_sdk_x86_64
 ENV OPKG_FILE_URL http://downloads.yoctoproject.org/releases/opkg
+ENV OPKG_UTIL_URL http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/snapshot
 
 # CURRENT VERSION - CHANGE PER BUILD
 ENV GALILEO_SDK iot-devkit-glibc-x86_64-image-80211zero-i586-toolchain-1.7.2.sh
 ENV SDK_VER 1.7.2
-ENV OPKG_SRC opkg-0.3.2.tar.gz
 ENV OPKG_VER 0.3.2
 
 # Upgrade packages on image
@@ -43,14 +43,22 @@ RUN apt-get -q update &&\
 
 # Install opkg
 WORKDIR /tmp/
-RUN wget -O $OPKG_SRC $OPKG_FILE_URL/$OPKG_SRC
-RUN tar xzf $OPKG_SRC
+RUN wget -O opkg-$OPKG_VER.tar.gz $OPKG_FILE_URL/opkg-$OPKG_VER.tar.gz
+RUN tar xzf opkg-$OPKG_VER.tar.gz
 RUN cd /tmp/opkg-$OPKG_VER &&\
     ./configure --with-static-libopkg --disable-shared --prefix=/usr &&\
     make && \ 
     make install
 RUN cd /tmp/ && \
-    rm -rf opkg-$OPKG_VER $OPKG_SRC
+    rm -rf opkg-$OPKG_VER opkg-$OPKG_VER.tar.gz
+
+# Add opk-build support
+RUN cd /tmp/ &&\
+    wget -O opkg-utils-$OPKG_VER.tar.gz $OPKG_UTIL_URL/opkg-utils-$OPKG_VER.tar.gz
+RUN cd /tmp/opkg-utils-$OPKG_VER &&\
+    make && make install
+RUN cd /tmp/ && \
+    rm -rf opkg-utils-$OPKG_VER opkg-utils-$OPKG_VER.tar.gz
 
 # Install sdk
 WORKDIR /tmp/
@@ -63,8 +71,7 @@ RUN rm -rf /tmp/$GALILEO_SDK
 RUN useradd -m -d /home/jenkins -s /bin/bash jenkins &&\
     echo "jenkins:jenkins" | chpasswd
 
-# Let make jenkins usable
-RUN chown -R jenkins:jenkins /build
+erName
 RUN echo "source /opt/iot-devkit/$SDK_VER/environment-setup-i586-poky-linux" >> /home/jenkins/.bashrc
 # Test purpose - direct docker build
 RUN echo "source /opt/iot-devkit/$SDK_VER/environment-setup-i586-poky-linux" >> /root/.bashrc
