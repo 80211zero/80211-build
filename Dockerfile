@@ -1,13 +1,18 @@
-# This Dockerfile is used to build an image containing basic stuff to be used as a Jenkins slave build node for intel galileo gen 2.
+# This Dockerfile is used to build an image containing basic stuff to be used as a 
+# Jenkins slave build node for intel galileo gen 2.
 FROM galileogen2/buildenv:stable
-MAINTAINER Vipin Madhavanunni <vipmadha@gmail.com>
-
-# SDK SF.NET URL
-ENV SDK_FILE_URL https://sourceforge.net/projects/wifizero/files/galileo_sdk_x86_64
-ENV OPKG_FILE_URL http://downloads.yoctoproject.org/releases/opkg
 
 # In case you need proxy
 #RUN echo 'Acquire::http::Proxy "http://127.0.0.1:8080";' >> /etc/apt/apt.conf
+
+# Details
+ENV maintainer Vipin Madhavanunni <vipmadha@gmail.com>
+ENV version 0.1
+ENV source "https://github.com/galileogen2/docker-sdk"
+
+# URLs
+ENV SDK_FILE_URL https://sourceforge.net/projects/wifizero/files/galileo_sdk_x86_64
+ENV OPKG_FILE_URL http://downloads.yoctoproject.org/releases/opkg
 
 # CURRENT VERSION - CHANGE PER BUILD
 ENV GALILEO_SDK iot-devkit-glibc-x86_64-image-80211zero-i586-toolchain-1.7.2.sh
@@ -44,17 +49,20 @@ RUN cd /tmp/opkg-$OPKG_VER &&\
     ./configure --with-static-libopkg --disable-shared --prefix=/usr &&\
     make && \ 
     make install
+RUN cd /tmp/ && \
+    rm -rf opkg-$OPKG_VER $OPKG_SRC
 
 # Install sdk
 WORKDIR /tmp/
 RUN wget -O $GALILEO_SDK $SDK_FILE_URL/$GALILEO_SDK/download 
 RUN chmod 775 /tmp/$GALILEO_SDK
-RUN /bin/bash -x /tmp/$GALILEO_SDK -y
+RUN /bin/bash /tmp/$GALILEO_SDK -y
 RUN rm -rf /tmp/$GALILEO_SDK
 
 # Set user jenkins to the image
 RUN useradd -m -d /home/jenkins -s /bin/bash jenkins &&\
     echo "jenkins:jenkins" | chpasswd
+
 # Let make jenkins usable
 RUN chown -R jenkins:jenkins /build
 RUN echo "source /opt/iot-devkit/$SDK_VER/environment-setup-i586-poky-linux" >> /home/jenkins/.bashrc
