@@ -1,5 +1,4 @@
-# This Dockerfile is used to build an image containing basic stuff to be used as a 
-# Jenkins slave build node for intel galileo gen 2.
+# This Dockerfile is used to build an image containing basic stuff to be used as a Jenkins slave build node for intel galileo gen 2.
 FROM galileogen2/buildenv:stable
 
 # In case you need proxy
