@@ -33,7 +33,7 @@ RUN apt-get -q update &&\
 # Install other tools
 RUN apt-get -q update &&\
     DEBIAN_FRONTEND="noninteractive" apt-get -q install -y -o Dpkg::Options::="--force-confnew" \
-    cmake &&\
+    cmake libtool &&\
     apt-get -q clean -y && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
 # Install opkg
