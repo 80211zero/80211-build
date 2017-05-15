@@ -22,7 +22,7 @@ ENV OPKG_VER 0.3.2
 
 # Upgrade packages on image
 # Preparations for sshd
-run apt-get -q update &&\
+RUN apt-get -q update &&\
     DEBIAN_FRONTEND="noninteractive" apt-get -q upgrade -y -o Dpkg::Options::="--force-confnew" --no-install-recommends &&\
     DEBIAN_FRONTEND="noninteractive" apt-get -q install -y -o Dpkg::Options::="--force-confnew"  --no-install-recommends openssh-server &&\
     apt-get -q autoremove &&\
