@@ -12,8 +12,8 @@ ENV OPKG_FILE_URL http://downloads.yoctoproject.org/releases/opkg
 # CURRENT VERSION - CHANGE PER BUILD
 ENV GALILEO_SDK iot-devkit-glibc-x86_64-image-80211zero-i586-toolchain-1.7.2.sh
 ENV SDK_VER 1.7.2
-ENV OPKG_SRC opkg-0.3.4.tar.gz
-ENV OPKG_VER 0.3.4
+ENV OPKG_SRC opkg-0.3.2.tar.gz
+ENV OPKG_VER 0.3.2
 
 # Upgrade packages on image
 # Preparations for sshd
@@ -33,7 +33,7 @@ RUN apt-get -q update &&\
 # Install other tools
 RUN apt-get -q update &&\
     DEBIAN_FRONTEND="noninteractive" apt-get -q install -y -o Dpkg::Options::="--force-confnew" \
-    cmake libtool &&\
+    pkg-config cmake libtool libarchive-dev curl libcurl3 libcurl3-dev libgpgme11 libgpgme11-dev &&\
     apt-get -q clean -y && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
 # Install opkg
