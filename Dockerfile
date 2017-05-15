@@ -71,8 +71,10 @@ RUN rm -rf /tmp/$GALILEO_SDK
 # Set user jenkins to the image
 RUN useradd -m -d /home/jenkins -s /bin/bash jenkins &&\
     echo "jenkins:jenkins" | chpasswd
+# Let make jenkins usable
+RUN chown -R jenkins:jenkins /build
 
-erName
+# sdk source env script to bashrc
 RUN echo "source /opt/iot-devkit/$SDK_VER/environment-setup-i586-poky-linux" >> /home/jenkins/.bashrc
 # Test purpose - direct docker build
 RUN echo "source /opt/iot-devkit/$SDK_VER/environment-setup-i586-poky-linux" >> /root/.bashrc
