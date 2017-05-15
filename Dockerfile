@@ -4,6 +4,7 @@ MAINTAINER Vipin Madhavanunni <vipmadha@gmail.com>
 
 # SDK SF.NET URL
 ENV SDK_FILE_URL https://sourceforge.net/projects/wifizero/files/galileo_sdk_x86_64
+ENV OPKG_FILE_URL http://downloads.yoctoproject.org/releases/opkg
 
 # In case you need proxy
 #RUN echo 'Acquire::http::Proxy "http://127.0.0.1:8080";' >> /etc/apt/apt.conf
@@ -11,6 +12,8 @@ ENV SDK_FILE_URL https://sourceforge.net/projects/wifizero/files/galileo_sdk_x86
 # CURRENT VERSION - CHANGE PER BUILD
 ENV GALILEO_SDK iot-devkit-glibc-x86_64-image-80211zero-i586-toolchain-1.7.2.sh
 ENV SDK_VER 1.7.2
+ENV OPKG_SRC opkg-0.3.4.tar.gz
+ENV OPKG_VER 0.3.4
 
 # Upgrade packages on image
 # Preparations for sshd
@@ -32,6 +35,15 @@ RUN apt-get -q update &&\
     DEBIAN_FRONTEND="noninteractive" apt-get -q install -y -o Dpkg::Options::="--force-confnew" \
     cmake &&\
     apt-get -q clean -y && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
+
+# Install opkg
+WORKDIR /tmp/
+RUN wget -O $OPKG_SRC $OPKG_FILE_URL/$OPKG_SRC
+RUN tar xzf $OPKG_SRC
+RUN cd /tmp/opkg-$OPKG_VER &&\
+    ./configure --with-static-libopkg --disable-shared --prefix=/usr &&\
+    make && \ 
+    make install
 
 # Install sdk
 WORKDIR /tmp/
