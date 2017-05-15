@@ -53,10 +53,12 @@ RUN cd /tmp/ && \
     rm -rf opkg-$OPKG_VER opkg-$OPKG_VER.tar.gz
 
 # Add opk-build support
-RUN cd /tmp/ &&\
-    wget -O opkg-utils-$OPKG_VER.tar.gz $OPKG_UTIL_URL/opkg-utils-$OPKG_VER.tar.gz
+WORKDIR /tmp/
+RUN wget -O opkg-utils-$OPKG_VER.tar.gz $OPKG_UTIL_URL/opkg-utils-$OPKG_VER.tar.gz
+RUN tar xzf opkg-utils-$OPKG_VER.tar.gz
 RUN cd /tmp/opkg-utils-$OPKG_VER &&\
-    make && make install
+    make &&\
+    make install
 RUN cd /tmp/ && \
     rm -rf opkg-utils-$OPKG_VER opkg-utils-$OPKG_VER.tar.gz
 
