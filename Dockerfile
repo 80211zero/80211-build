@@ -65,7 +65,7 @@ RUN cd /tmp/ && \
 WORKDIR /tmp/
 RUN wget -O $GALILEO_SDK $SDK_FILE_URL/$GALILEO_SDK/download 
 RUN chmod 775 /tmp/$GALILEO_SDK
-RUN /bin/bash /tmp/$GALILEO_SDK -y
+RUN /bin/bash -x /tmp/$GALILEO_SDK -y
 RUN rm -rf /tmp/$GALILEO_SDK
 
 # Set user jenkins to the image
