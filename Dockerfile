@@ -6,7 +6,7 @@ FROM galileogen2/buildenv:stable
 
 # Details
 ENV maintainer Vipin Madhavanunni <vipmadha@gmail.com>
-ENV version 0.1
+ENV version 0.2
 ENV source "https://github.com/galileogen2/docker-sdk"
 
 # URLs
@@ -37,7 +37,8 @@ RUN apt-get -q update &&\
 # Install other tools
 RUN apt-get -q update &&\
     DEBIAN_FRONTEND="noninteractive" apt-get -q install -y -o Dpkg::Options::="--force-confnew" \
-    pkg-config cmake libtool libarchive-dev curl libcurl3 libcurl3-dev libgpgme11 libgpgme11-dev &&\
+    pkg-config cmake libtool libarchive-dev curl libcurl3 libcurl3-dev libgpgme11 libgpgme11-dev \
+    libncurses5 libncurses5-dev libelf-dev asciidoc binutils-dev &&\
     apt-get -q clean -y && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
 # Install opkg
