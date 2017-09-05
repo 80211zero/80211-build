@@ -10,7 +10,7 @@ ENV version 0.3
 ENV source "https://github.com/galileogen2/docker-sdk"
 
 # URLs
-ENV SDK_FILE_URL https://sourceforge.net/projects/galileogen2/files/sdk/
+ENV SDK_FILE_URL https://sourceforge.net/projects/galileogen2/files/sdk
 ENV OPKG_FILE_URL http://downloads.yoctoproject.org/releases/opkg
 ENV OPKG_UTIL_URL http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/snapshot
 
@@ -65,7 +65,7 @@ RUN cd /tmp/ && \
 
 # Install sdk
 WORKDIR /tmp/
-RUN wget -O $GALILEO_SDK $SDK_FILE_URL/$SDK_REV/$GALILEO_SDK/download 
+RUN wget -O $GALILEO_SDK $SDK_FILE_URL/$SDK_VER/$SDK_REV/$GALILEO_SDK/download 
 RUN chmod 775 /tmp/$GALILEO_SDK
 RUN /bin/bash -x /tmp/$GALILEO_SDK -y
 RUN rm -rf /tmp/$GALILEO_SDK
