@@ -6,17 +6,18 @@ FROM galileogen2/buildenv:stable
 
 # Details
 ENV maintainer Vipin Madhavanunni <vipmadha@gmail.com>
-ENV version 0.2
+ENV version 0.3
 ENV source "https://github.com/galileogen2/docker-sdk"
 
 # URLs
-ENV SDK_FILE_URL https://sourceforge.net/projects/wifizero/files/galileo_sdk_x86_64
+ENV SDK_FILE_URL https://sourceforge.net/projects/galileogen2/files/sdk/
 ENV OPKG_FILE_URL http://downloads.yoctoproject.org/releases/opkg
 ENV OPKG_UTIL_URL http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/snapshot
 
 # CURRENT VERSION - CHANGE PER BUILD
 ENV GALILEO_SDK iot-devkit-glibc-x86_64-image-80211zero-i586-toolchain-1.7.2.sh
 ENV SDK_VER 1.7.2
+ENV SDK_REV 3.0
 ENV OPKG_VER 0.3.2
 
 # Upgrade packages on image
@@ -64,7 +65,7 @@ RUN cd /tmp/ && \
 
 # Install sdk
 WORKDIR /tmp/
-RUN wget -O $GALILEO_SDK $SDK_FILE_URL/$GALILEO_SDK/download 
+RUN wget -O $GALILEO_SDK $SDK_FILE_URL/$SDK_REV/$GALILEO_SDK/download 
 RUN chmod 775 /tmp/$GALILEO_SDK
 RUN /bin/bash -x /tmp/$GALILEO_SDK -y
 RUN rm -rf /tmp/$GALILEO_SDK
